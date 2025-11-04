@@ -35,7 +35,7 @@ export const createProduct = (product: Omit<Product, 'id'>) => {
   const newProduct: Product = { id, ...product };
   products.push(newProduct);
   writeJsonFile(products);
-  return newProduct as Product;
+  return {success: true, newProduct: newProduct as Product};
 };
 
 export const replaceProduct = (product: Product) => {

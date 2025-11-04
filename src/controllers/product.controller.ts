@@ -11,12 +11,10 @@ import {
 export const getList = (req: Request, res: Response) => {
   const queryParams = req.query ?? {};
 
-  console.log({ queryParams });
-
   try {
-    const products = getAllProducts(queryParams);
+    const products = getAllProducts(queryParams) ?? [];
 
-    if (!products || products.length === 0) return res.status(204).json({ message: 'No products found.' });
+    // if (!products || products.length === 0) return res.status(204).json({ message: 'No products found.' });
 
     res.status(200).send(products);
   } catch (err) {
