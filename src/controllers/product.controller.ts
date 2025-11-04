@@ -1,9 +1,23 @@
 import { Request, Response } from 'express';
-import { createProduct, getAllProducts, getProductById } from '../services/products.service';
+import {
+  createProduct,
+  deleteProduct,
+  getAllProducts,
+  getProductById,
+  replaceProduct,
+  updateProduct,
+} from '../services/products.service';
 
-export const getList = (_req: Request, res: Response) => {
+export const getList = (req: Request, res: Response) => {
+  const queryParams = req.query ?? {};
+
+  console.log({ queryParams });
+
   try {
-    const products = getAllProducts();
+    const products = getAllProducts(queryParams);
+
+    if (!products || products.length === 0) return res.status(204).json({ message: 'No products found.' });
+
     res.status(200).send(products);
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la récupération' });
@@ -39,14 +53,53 @@ export const post = (req: Request, res: Response) => {
   }
 };
 
-// export const put = (req: Request, res: Response) => {
-//   const id = Number(req.params.id);
-//   try {
-//     const product = getProductById(id);
+export const put = (req: Request, res: Response) => {
+  const idParam = Number(req.params.id);
 
-//     if (!product) return res.status(404).json({ message: 'Product not found.' });
-//     res.status(200).send(product);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Erreur lors de la récupération' });
-//   }
-// };
+  const { id, title, category, description, specs, price } = req.body ?? {};
+
+  if (idParam !== parseInt(id)) {
+    return res.status(404).send('Product not found');
+  }
+
+  if (!title || !category || !description || !specs || !price)
+    return res.status(400).json({ message: 'Invalid request.' });
+
+  try {
+    const newProduct = replaceProduct({ id, title, category, description, specs, price });
+    if (!newProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.status(200).json(newProduct);
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors du remplacement du produit' });
+  }
+};
+
+export const patch = (req: Request, res: Response) => {
+  const idParam = Number(req.params.id);
+  const body = req.body ?? {};
+
+  try {
+    const updatedProduct = updateProduct(idParam, body);
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.status(200).json(updatedProduct);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Erreur lors de la mise à jour du produit' });
+  }
+};
+
+export const remove = (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  try {
+    const productToDelete = deleteProduct(id);
+    if (!productToDelete) return res.status(404).json({ message: 'Product not found.' });
+    res.status(204).json({ message: 'Produit supprimé.' });
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de la création du produit' });
+  }
+};
