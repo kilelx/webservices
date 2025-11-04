@@ -16,9 +16,9 @@ export const getAllProducts = (queryParams: any) => {
     productsList = filterByParams(products, queryParams.search);
     if (!productsList) return [];
   }
-
+  
   if (queryParams.page && queryParams.limit) {
-    productsList = getPaginationLimit(products, { page: queryParams.page, limit: queryParams.limit });
+    productsList = getPaginationLimit(productsList, { page: queryParams.page, limit: queryParams.limit });
     return productsList;
   } else {
     return productsList;
