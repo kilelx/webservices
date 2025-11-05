@@ -11,6 +11,7 @@ describe('Products API', () => {
     description: 'This is a test product',
     specs: 'Our product has amazing specs',
     price: 10.99,
+    ean: "1457633845284"
   };
 
   const partialProduct = {

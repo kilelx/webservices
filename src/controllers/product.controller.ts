@@ -11,10 +11,10 @@ import {
 export const getList = (req: Request, res: Response) => {
   const queryParams = req.query ?? {};
 
+  req.log.info('OKKKK récupère les produits')
+
   try {
     const products = getAllProducts(queryParams) ?? [];
-
-    // if (!products || products.length === 0) return res.status(204).json({ message: 'No products found.' });
 
     res.status(200).send(products);
   } catch (err) {
@@ -42,6 +42,16 @@ export const post = (req: Request, res: Response) => {
   if (!title || !category || !description || !specs || !price)
     return res.status(400).json({ message: 'Invalid request.' });
 
+  // Vérifier les types
+  if (
+    !(typeof title === 'string') ||
+    !(typeof category === 'string') ||
+    !(typeof description === 'string') ||
+    !(typeof specs === 'string') ||
+    !(typeof price === 'number')
+  )
+    return res.status(400).json({ message: 'Invalid request.' });
+
   try {
     const newProduct = createProduct({ title, category, description, specs, price });
     res.status(201).json(newProduct);
@@ -54,17 +64,28 @@ export const post = (req: Request, res: Response) => {
 export const put = (req: Request, res: Response) => {
   const idParam = Number(req.params.id);
 
-  const { id, title, category, description, specs, price } = req.body ?? {};
+  const { id, title, category, description, specs, price, ean } = req.body ?? {};
 
   if (idParam !== parseInt(id)) {
     return res.status(404).send('Product not found');
   }
 
-  if (!title || !category || !description || !specs || !price)
+  if (!title || !category || !description || !specs || !price || !ean)
+    return res.status(400).json({ message: 'Invalid request.' });
+
+  // Vérifier les types
+  if (
+    !(typeof title === 'string') ||
+    !(typeof category === 'string') ||
+    !(typeof description === 'string') ||
+    !(typeof specs === 'string') ||
+    !(typeof price === 'number') ||
+    !(typeof ean === 'string')
+  )
     return res.status(400).json({ message: 'Invalid request.' });
 
   try {
-    const newProduct = replaceProduct({ id, title, category, description, specs, price });
+    const newProduct = replaceProduct({ id, title, category, description, specs, price, ean });
     if (!newProduct) {
       return res.status(404).json({ message: 'Product not found' });
     }

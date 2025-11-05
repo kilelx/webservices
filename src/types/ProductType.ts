@@ -5,4 +5,5 @@ export interface Product {
     description: string;
     specs: string;
     price: number;
+    ean: string;
 }

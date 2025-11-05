@@ -30,9 +30,10 @@ export const getProductById = (id: number) => {
   return product as Product;
 };
 
-export const createProduct = (product: Omit<Product, 'id'>) => {
+export const createProduct = (product: Omit<Product, 'id' | 'ean'>) => {
   const id = Math.floor(Math.random() * 10000000);
-  const newProduct: Product = { id, ...product };
+  const ean = (Math.floor(Math.random() * 10000000)).toString();
+  const newProduct: Product = { id, ean, ...product };
   products.push(newProduct);
   writeJsonFile(products);
   return {success: true, newProduct: newProduct as Product};
