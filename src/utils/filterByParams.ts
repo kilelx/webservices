@@ -1,4 +1,4 @@
-import { Product } from "../types/ProductType";
+import { Product } from "../types/product.type";
 
 export const filterByParams = (data: Product[], search: string) => {
     

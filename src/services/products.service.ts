@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { Product } from '../types/ProductType';
 import { writeJsonFile } from '../utils/writeJsonFile';
 import { getPaginationLimit } from '../utils/getPaginationLimit';
 import { filterByParams } from '../utils/filterByParams';
+import { Product } from '../types/product.type';
 
 const file: string = path.resolve('src/data/products.seed.json');
 const data: string = fs.readFileSync(file, 'utf-8');

@@ -1,4 +1,4 @@
-import { Product } from "../types/ProductType";
+import { Product } from "../types/product.type";
 
 export const getPaginationLimit = (data: Product[], queryParams: any) => {
     const page = Number(queryParams.page)
