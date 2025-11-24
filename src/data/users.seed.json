@@ -1,8 +1,20 @@
 [
-    {
-        "id": "124576134bifzofghziphfbzm",
-        "email": "admin@test.com",
-        "passwordHash": "$2b$10$56O5WergdfHfPvIXBe2XO.fea6hS8.3ehQzCIK3QSb9eFP4RfdZUy",
-        "role": "admin"
-    }
+  {
+    "id": "124576134bifzofghziphfbzm",
+    "email": "admin@test.com",
+    "passwordHash": "$2b$10$4rL0lsf2bIhyq7Tdn81Ht.cQNfPRvJKhgRMl3COuEMvXb/RKSVlFi",
+    "role": "admin"
+  },
+  {
+    "id": " 129082BIFBIZH98712684",
+    "email": "user@test.com",
+    "passwordHash": "$2b$10$4rL0lsf2bIhyq7Tdn81Ht.cQNfPRvJKhgRMl3COuEMvXb/RKSVlFi",
+    "role": "user"
+  },
+  {
+    "passwordHash": "$2b$10$aa9X8tJYTaOr3HQRFlmUUuAbGv6AhgnPQtT2sdcWlkeFhbp.dTuMy",
+    "id": "2324558",
+    "email": "adminbis@test.com",
+    "role": "admin"
+  }
 ]

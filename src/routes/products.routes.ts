@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { get, getList, post, put, patch, remove } from '../controllers/product.controller';
+import { auth, authorize } from '../middlewares/auth.middleware';
+import { Role } from '../types/role.type';
 
 const router = Router();
 
@@ -73,6 +75,8 @@ router.get('/:id', get);
  *  post:
  *      summary: Crée un nouveau produit
  *      tags: [Products]
+ *      security:
+ *          - bearerAuth: []
  *      requestBody:
  *          required: true
  *          content:
@@ -88,12 +92,15 @@ router.get('/:id', get);
  *                          $ref: '#/components/schemas/Product'
  *          400:
  *              description: Requête invalide
+ *          401:
+ *              description: Non authentifié - token manquant ou invalide
+ *          403:
+ *              description: Interdit - rôle insuffisant
  *          500:
  *              description: Erreur serveur.
  *
  */
-router.post('/', post);
-
+router.post('/', auth, authorize(Role.admin), post);
 
 /**
  * @swagger
@@ -101,13 +108,15 @@ router.post('/', post);
  *  put:
  *      summary: Remplace un nouveau produit
  *      tags: [Products]
+ *      security:
+ *          - bearerAuth: []
  *      requestBody:
  *          required: true
  *          content:
  *              application/json:
  *                  schema:
  *                      $ref: '#/components/schemas/Product'
-  *      parameters:
+ *      parameters:
  *          - in: path
  *            name: id
  *            required: true
@@ -123,13 +132,17 @@ router.post('/', post);
  *                          $ref: '#/components/schemas/Product'
  *          400:
  *              description: Requête invalide
+ *          401:
+ *              description: Non authentifié - token manquant ou invalide
+ *          403:
+ *              description: Interdit - rôle insuffisant
  *          404:
  *              description: Produit non trouvé
  *          500:
  *              description: Erreur serveur.
  *
  */
-router.put('/:id', put);
+router.put('/:id', auth, authorize(Role.admin), put);
 
 /**
  * @swagger
@@ -137,13 +150,15 @@ router.put('/:id', put);
  *  patch:
  *      summary: Édite un produit
  *      tags: [Products]
+ *      security:
+ *          - bearerAuth: []
  *      requestBody:
  *          required: true
  *          content:
  *              application/json:
  *                  schema:
  *                      $ref: '#/components/schemas/PartialProduct'
-  *      parameters:
+ *      parameters:
  *          - in: path
  *            name: id
  *            required: true
@@ -159,13 +174,17 @@ router.put('/:id', put);
  *                          $ref: '#/components/schemas/Product'
  *          400:
  *              description: Requête invalide
+ *          401:
+ *              description: Non authentifié - token manquant ou invalide
+ *          403:
+ *              description: Interdit - rôle insuffisant
  *          404:
  *              description: Produit non trouvé
  *          500:
  *              description: Erreur serveur.
  *
  */
-router.patch('/:id', patch);
+router.patch('/:id', auth, authorize(Role.admin), patch);
 
 /**
  * @swagger
@@ -173,6 +192,8 @@ router.patch('/:id', patch);
  *  delete:
  *      summary: Supprime un produit
  *      tags: [Products]
+ *      security:
+ *          - bearerAuth: []
  *      parameters:
  *          - in: path
  *            name: id
@@ -183,12 +204,16 @@ router.patch('/:id', patch);
  *      responses:
  *          204:
  *              description: Produit supprimé avec succès
+ *          401:
+ *              description: Non authentifié - token manquant ou invalide
+ *          403:
+ *              description: Interdit - rôle insuffisant
  *          404:
  *              description: Produit non trouvé
  *          500:
  *              description: Erreur serveur.
  *
  */
-router.delete('/:id', remove);
+router.delete('/:id', auth, authorize(Role.admin), remove);
 
 export default router;

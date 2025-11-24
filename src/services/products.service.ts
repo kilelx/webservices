@@ -4,6 +4,7 @@ import { writeJsonFile } from '../utils/writeJsonFile';
 import { getPaginationLimit } from '../utils/getPaginationLimit';
 import { filterByParams } from '../utils/filterByParams';
 import { Product } from '../types/product.type';
+import { JSON_FILE_PRODUCTS } from '../constants/JSON_FILE';
 
 const file: string = path.resolve('src/data/products.seed.json');
 const data: string = fs.readFileSync(file, 'utf-8');
@@ -35,7 +36,7 @@ export const createProduct = (product: Omit<Product, 'id' | 'ean'>) => {
   const ean = (Math.floor(Math.random() * 10000000)).toString();
   const newProduct: Product = { id, ean, ...product };
   products.push(newProduct);
-  writeJsonFile(products);
+  writeJsonFile(JSON_FILE_PRODUCTS, products);
   return {success: true, newProduct: newProduct as Product};
 };
 
@@ -46,7 +47,7 @@ export const replaceProduct = (product: Product) => {
 
   const newProduct: Product = { ...product };
   products[index] = newProduct;
-  writeJsonFile(products);
+  writeJsonFile(JSON_FILE_PRODUCTS, products);
   return newProduct as Product;
 };
 
@@ -58,7 +59,7 @@ export const updateProduct = (productId: number, updates: Partial<Product>) => {
 
   const updatedProduct = { ...products[index], ...rest };
   products[index] = updatedProduct;
-  writeJsonFile(products);
+  writeJsonFile(JSON_FILE_PRODUCTS, products);
   return updatedProduct;
 };
 
@@ -68,6 +69,6 @@ export const deleteProduct = (id: number) => {
   if (index === -1) return null;
 
   products.splice(index, 1);
-  writeJsonFile(products);
+  writeJsonFile(JSON_FILE_PRODUCTS, products);
   return true;
 };

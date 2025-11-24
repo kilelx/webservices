@@ -1,12 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import { JSON_FILE_URL } from '../constants/JSON_FILE';
 
-export const writeJsonFile = async (data: unknown): Promise<boolean> => {
-  const file: string = path.resolve(JSON_FILE_URL);
+export const writeJsonFile = async (fileUrl: string, data: unknown): Promise<boolean> => {
+  const file: string = path.resolve(fileUrl);
   try {
     fs.writeFileSync(file, JSON.stringify(data));
+    console.log('okk')
   } catch (e: unknown) {
+    console.log('pas okk', e)
     return false;
   }
   return true;

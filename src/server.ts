@@ -9,5 +9,5 @@ const port: number = Number(process.env.PORT) ?? 3000;
 
 // On écoute le serveur sur le port
 server.listen(port, () => {
-    console.log(`Server is running on http://localhost/${port}`)
+    console.log(`Server is running on http://localhost:${port}`)
 })

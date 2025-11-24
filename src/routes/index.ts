@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express';
-import authRoutes from './auth.routes';
-import productRoutes from './products.routes';
+import authRouter from './auth.routes';
+import productRouter from './products.routes';
+import ordersRouter from './order.routes';
 
 const router = express.Router();
 
 router.get('/', (_req: Request, res: Response) => res.json({ message: "V1 de l'API" }));
-router.use('/auth', authRoutes);
-router.use('/products', productRoutes);
+router.use('/auth', authRouter);
+router.use('/products', productRouter);
+router.use('/orders', ordersRouter);
 
 export default router;
