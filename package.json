@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsx src/server.ts",
     "dev": "tsx watch src/server.ts",
+    "soap:dev": "tsx watch src/soap-server.ts",
     "test": "jest --runInBand"
   },
   "author": "",

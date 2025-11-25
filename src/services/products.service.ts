@@ -10,7 +10,7 @@ const file: string = path.resolve('src/data/products.seed.json');
 const data: string = fs.readFileSync(file, 'utf-8');
 const products: Product[] = JSON.parse(data) as Product[];
 
-export const getAllProducts = (queryParams: any) => {
+export const getAllProducts = (queryParams?: any) => {
   let productsList: Product[] = products;
 
   if (queryParams.search) {
