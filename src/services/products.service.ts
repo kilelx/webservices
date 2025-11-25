@@ -13,12 +13,12 @@ const products: Product[] = JSON.parse(data) as Product[];
 export const getAllProducts = (queryParams?: any) => {
   let productsList: Product[] = products;
 
-  if (queryParams.search) {
+  if (queryParams && queryParams.search) {
     productsList = filterByParams(products, queryParams.search);
     if (!productsList) return [];
   }
   
-  if (queryParams.page && queryParams.limit) {
+  if (queryParams && queryParams.page && queryParams.limit) {
     productsList = getPaginationLimit(productsList, { page: queryParams.page, limit: queryParams.limit });
     return productsList;
   } else {

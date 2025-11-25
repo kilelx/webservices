@@ -5,7 +5,6 @@ export const writeJsonFile = async (fileUrl: string, data: unknown): Promise<boo
   const file: string = path.resolve(fileUrl);
   try {
     fs.writeFileSync(file, JSON.stringify(data));
-    console.log('okk')
   } catch (e: unknown) {
     console.log('pas okk', e)
     return false;
