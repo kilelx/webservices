@@ -11,8 +11,6 @@ import {
 export const getList = (req: Request, res: Response) => {
   const queryParams = req.query ?? {};
 
-  req.log.info('OKKKK récupère les produits')
-
   try {
     const products = getAllProducts(queryParams) ?? [];
 
