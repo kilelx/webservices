@@ -17,7 +17,7 @@ export const getAllProducts = (queryParams?: any) => {
     productsList = filterByParams(products, queryParams.search);
     if (!productsList) return [];
   }
-  
+
   if (queryParams && queryParams.page && queryParams.limit) {
     productsList = getPaginationLimit(productsList, { page: queryParams.page, limit: queryParams.limit });
     return productsList;
@@ -33,16 +33,18 @@ export const getProductById = (id: number) => {
 
 export const createProduct = (product: Omit<Product, 'id' | 'ean'>) => {
   const id = Math.floor(Math.random() * 10000000);
-  const ean = (Math.floor(Math.random() * 10000000)).toString();
+  const ean = Math.floor(Math.random() * 10000000).toString();
   const newProduct: Product = { id, ean, ...product };
   products.push(newProduct);
   writeJsonFile(JSON_FILE_PRODUCTS, products);
-  return {success: true, newProduct: newProduct as Product};
+  return { success: true, newProduct: newProduct as Product };
 };
 
 export const replaceProduct = (product: Product) => {
   const { id: productId } = product;
-  const index = products.findIndex((product) => product.id === productId);
+
+  const index = products.findIndex((product) => product.id === Number(productId));
+
   if (index === -1) return null;
 
   const newProduct: Product = { ...product };

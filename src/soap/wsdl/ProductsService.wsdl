@@ -54,6 +54,31 @@
         <part name="res" type="xsd:boolean" />
     </message>
 
+    <message name="UpdateProductRequest">
+        <part name="id" type="xsd:int" />
+        <part name="title" type="xsd:string" />
+        <part name="category" type="xsd:string" />
+        <part name="description" type="xsd:string" />
+        <part name="specs" type="xsd:string" />
+        <part name="price" type="xsd:float" />
+    </message>
+    <message name="UpdateProductResponse">
+        <part name="product" type="pns:Product" />
+    </message>
+
+    <message name="ReplaceProductRequest">
+        <part name="id" type="xsd:int" />
+        <part name="title" type="xsd:string" />
+        <part name="category" type="xsd:string" />
+        <part name="ean" type="xsd:string" />
+        <part name="description" type="xsd:string" />
+        <part name="specs" type="xsd:string" />
+        <part name="price" type="xsd:float" />
+    </message>
+    <message name="ReplaceProductResponse">
+        <part name="product" type="pns:Product" />
+    </message>
+
     <!-- List des opérations dispos -->
     <portType name="ProductsServicePort">
         <operation name="ListProducts">
@@ -71,6 +96,14 @@
         <operation name="DeleteProduct">
             <input message="pns:DeleteProductRequest" />
             <output message="pns:DeleteProductResponse" />
+        </operation>
+        <operation name="UpdateProduct">
+            <input message="pns:UpdateProductRequest" />
+            <output message="pns:UpdateProductResponse" />
+        </operation>
+        <operation name="ReplaceProduct">
+            <input message="pns:ReplaceProductRequest" />
+            <output message="pns:ReplaceProductResponse" />
         </operation>
     </portType>
 
@@ -115,6 +148,30 @@
 
         <operation name="DeleteProduct">
             <soap:operation soapAction="DeleteProduct" />
+            <input>
+                <soap:body use="encoded" namespace="http://localhost:4000/soap/products"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://localhost:4000/soap/products"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+
+        <operation name="UpdateProduct">
+            <soap:operation soapAction="UpdateProduct" />
+            <input>
+                <soap:body use="encoded" namespace="http://localhost:4000/soap/products"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://localhost:4000/soap/products"
+                    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+
+        <operation name="ReplaceProduct">
+            <soap:operation soapAction="ReplaceProduct" />
             <input>
                 <soap:body use="encoded" namespace="http://localhost:4000/soap/products"
                     encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
