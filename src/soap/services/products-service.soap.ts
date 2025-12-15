@@ -1,5 +1,5 @@
 import { IServices } from 'soap';
-import { createProduct, getAllProducts, getProductById } from '../../services/products.service';
+import { createProduct, deleteProduct, getAllProducts, getProductById } from '../../services/products.service';
 import { SoapCallbackFunction } from '../types/soap-callback-function.type';
 
 export const productsService: IServices = {
@@ -26,6 +26,13 @@ export const productsService: IServices = {
         const { newProduct } = createProduct({ title, category, description, specs, price });
         !!callback && callback({ newProduct });
       },
+      DeleteProduct: async function ({ id }: { id: number }, callback: SoapCallbackFunction) {
+        // TODO: afficher la response (200 dans tous les cas)
+        const res = deleteProduct(Number(id));
+        console.log(res)
+        !!callback && callback(res);
+      },
+      // RESTE TODO : updateProduct et replaceProduct
     },
   },
 };

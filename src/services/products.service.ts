@@ -66,7 +66,7 @@ export const updateProduct = (productId: number, updates: Partial<Product>) => {
 export const deleteProduct = (id: number) => {
   const index = products.findIndex((item) => item.id === id);
 
-  if (index === -1) return null;
+  if (index === -1) return false;
 
   products.splice(index, 1);
   writeJsonFile(JSON_FILE_PRODUCTS, products);
