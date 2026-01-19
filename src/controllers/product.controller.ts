@@ -2,22 +2,26 @@ import { Request, Response } from 'express';
 import {
   createProduct,
   deleteProduct,
-  getAllProducts,
   getProductById,
   replaceProduct,
   updateProduct,
 } from '../services/products.service';
+import { ProductModel } from '../models/product-schema.model';
 
-export const getList = (req: Request, res: Response) => {
-  const queryParams = req.query ?? {};
+export async function getList (req: Request, res: Response) {
 
-  try {
-    const products = getAllProducts(queryParams) ?? [];
+  const products = await ProductModel.find().exec()
+  return products
 
-    res.status(200).send(products);
-  } catch (err) {
-    res.status(500).json({ message: 'Erreur lors de la récupération' });
-  }
+  // const queryParams = req.query ?? {};
+
+  // try {
+  //   const products = getAllProducts(queryParams) ?? [];
+
+  //   res.status(200).send(products);
+  // } catch (err) {
+  //   res.status(500).json({ message: 'Erreur lors de la récupération' });
+  // }
 };
 
 export const get = (req: Request, res: Response) => {

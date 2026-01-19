@@ -8,6 +8,7 @@ import {
   updateProduct,
 } from '../../services/products.service';
 import { SoapCallbackFunction } from '../types/soap-callback-function.type';
+import { verify } from '../../utils/jwt.utils';
 
 export const productsService: IServices = {
   ProductsService: {
@@ -43,19 +44,41 @@ export const productsService: IServices = {
           specs,
           price,
         }: { title: string; category: string; description: string; specs: string; price: number },
-        callback: SoapCallbackFunction
+        callback: SoapCallbackFunction,
+        headers: any
       ) {
+        if (!callback) return;
+
+        const token = headers?.AuthHeader?.token;
+
+        try {
+          if (!token || !verify(token)) throw new Error('Unauthorized');
+        } catch {
+          return callback({
+            Fault: {
+              faultcode: 'soap:Client',
+              faultstring: 'Unauthorized',
+              detail: { code: 401, message: 'Unauthorized' },
+            },
+          });
+        }
+
         const { newProduct } = createProduct({ title, category, description, specs, price });
         !!callback && callback({ newProduct });
       },
-      DeleteProduct: async function ({ id }: { id: number }, callback: SoapCallbackFunction) {
-        const res = deleteProduct(Number(id));
+      DeleteProduct: async function ({ id }: { id: number }, callback: SoapCallbackFunction, headers: any) {
+        if (!callback) return;
 
-        if (res) return !!callback && callback(res);
+        const token = headers?.AuthHeader?.token;
 
-        return (
-          !!callback &&
-          callback({
+        try {
+          if (!token || !verify(token)) throw new Error('Unauthorized');
+        } catch {
+          const res = deleteProduct(Number(id));
+
+          if (res) return callback(res);
+
+          return callback({
             Fault: {
               faultcode: 'soap:Client',
               faultstring: `Product with ID ${id} not found`,
@@ -64,8 +87,8 @@ export const productsService: IServices = {
                 message: `Product with ID ${id} does not exist`,
               },
             },
-          })
-        );
+          });
+        }
       },
       UpdateProduct: async function (
         {
@@ -76,15 +99,21 @@ export const productsService: IServices = {
           specs,
           price,
         }: { id: number; title: string; category: string; description: string; specs: string; price: number },
-        callback: SoapCallbackFunction
+        callback: SoapCallbackFunction,
+        headers: any
       ) {
-        const updatedProduct = updateProduct(Number(id), { title, category, description, specs, price });
+        if (!callback) return;
 
-        if (updatedProduct) return !!callback && callback({ product: updatedProduct });
+        const token = headers?.AuthHeader?.token;
 
-        return (
-          !!callback &&
-          callback({
+        try {
+          if (!token || !verify(token)) throw new Error('Unauthorized');
+        } catch {
+          const updatedProduct = updateProduct(Number(id), { title, category, description, specs, price });
+
+          if (updatedProduct) return callback({ product: updatedProduct });
+
+          return callback({
             Fault: {
               faultcode: 'soap:Client',
               faultstring: `Product with ID ${id} not found`,
@@ -93,8 +122,8 @@ export const productsService: IServices = {
                 message: `Product with ID ${id} does not exist`,
               },
             },
-          })
-        );
+          });
+        }
       },
       ReplaceProduct: async function (
         {
@@ -114,16 +143,21 @@ export const productsService: IServices = {
           price: number;
           ean: string;
         },
-        callback: SoapCallbackFunction
+        callback: SoapCallbackFunction,
+        headers: any
       ) {
-        console.log(id);
-        const newProduct = replaceProduct({ id: Number(id), title, category, description, specs, price, ean });
+        if (!callback) return;
 
-        if (newProduct) return !!callback && callback({ product: newProduct });
+        const token = headers?.AuthHeader?.token;
 
-        return (
-          !!callback &&
-          callback({
+        try {
+          if (!token || !verify(token)) throw new Error('Unauthorized');
+        } catch {
+          const newProduct = replaceProduct({ id: Number(id), title, category, description, specs, price, ean });
+
+          if (newProduct) return callback({ product: newProduct });
+
+          return callback({
             Fault: {
               faultcode: 'soap:Client',
               faultstring: `Product with ID ${id} not found`,
@@ -132,8 +166,8 @@ export const productsService: IServices = {
                 message: `Product with ID ${id} does not exist`,
               },
             },
-          })
-        );
+          });
+        }
       },
     },
   },
