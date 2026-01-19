@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { get, getList, post, put, patch, remove } from '../controllers/product.controller';
+import { get, getList, post, put, patch, remove, seed } from '../controllers/product.controller';
 import { auth, authorize } from '../middlewares/auth.middleware';
 import { Role } from '../types/role.type';
 
@@ -68,6 +68,8 @@ router.get('/', getList);
  *
  */
 router.get('/:id', get);
+
+router.post('/seed', seed)
 
 /**
  * @swagger
