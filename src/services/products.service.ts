@@ -1,15 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { writeJsonFile } from '../utils/writeJsonFile';
-import { getPaginationLimit } from '../utils/getPaginationLimit';
-import { filterByParams } from '../utils/filterByParams';
 import { Product } from '../types/product.type';
-import { JSON_FILE_PRODUCTS } from '../constants/JSON_FILE';
 import { ProductModel } from '../models/product-schema.model';
 
-const file: string = path.resolve('src/data/products.seed.json');
-const data: string = fs.readFileSync(file, 'utf-8');
-const products: Product[] = JSON.parse(data) as Product[];
+// const file: string = path.resolve('src/data/products.seed.json');
+// const data: string = fs.readFileSync(file, 'utf-8');
+// const products: Product[] = JSON.parse(data) as Product[];
 
 export const getProductsJson = async () => {
   const file: string = path.resolve('src/data/products.seed.json');
