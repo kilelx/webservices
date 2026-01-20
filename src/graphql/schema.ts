@@ -1,8 +1,7 @@
 import { productsSchema } from "./features/products/products.schema";
 
-const baseSchema = `
+const typeDefsSchema = `
 type Query
-type Mutation
 `
 
-export const schema = [baseSchema, productsSchema]
+export const typeDefs = [typeDefsSchema, productsSchema]

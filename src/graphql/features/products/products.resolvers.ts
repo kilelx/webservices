@@ -2,16 +2,15 @@ import { GraphQLContext } from "../../types/graphql-context.type";
 
 export const productsResolvers = {
     Query: {
-        products: (_: any, args: any, ctx: GraphQLContext) => {
-            ctx.services.products.getAllProducts({})
-            ctx.services.products.getProductById(),
-        },
+        products: (_: any, _args: any, ctx: GraphQLContext) => {
+            return ctx.services.products.getAllProducts({})
+        }
         // product..
     },
 
-    Mutation: {
+    // Mutation: {
         // createProduct,
         // updateProduct,
         // deleteProduct
-    }
+    // }
 };

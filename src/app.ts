@@ -37,7 +37,4 @@ app.use('/api/v1', routes);
 // Route du Swagger
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// tout à la fin, donc si pas de requêtes interceptées avant = 404
-app.use(NotFound);
-
 export default app;
