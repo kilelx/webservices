@@ -13,7 +13,7 @@ export const productsSchema = `
         updatedAt: DateTime
     }
 
-    type CreateProductInput {
+    input CreateProductInput {
         title: String!
         category: String!
         description: String!
@@ -22,7 +22,7 @@ export const productsSchema = `
         ean: String!
     }
 
-    type CreateProductInput {
+    input UpdateProductInput {
         title: String
         category: String
         description: String
@@ -33,6 +33,13 @@ export const productsSchema = `
 
     extend type Query {
         products: [Product!]!
+        product(id: ID!): Product
+    }
+
+    extend type Mutation {
+        createProduct(input: CreateProductInput): Product!
+        updateProduct(id: ID!, input: UpdateProductInput!): Product
+        deleteProduct(id: ID!): Boolean
     }
 
 `;

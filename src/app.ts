@@ -7,7 +7,7 @@ import swaggerOptions from '../swagger/options';
 import pinoHttp from './middlewares/pino-http.middleware';
 import limiter from './middlewares/limiter.middleware';
 import helmet from 'helmet';
-import cors from 'cors'
+import cors from 'cors';
 import { CorsOptions } from 'cors';
 
 const app = express();
@@ -15,16 +15,29 @@ const swaggerJSdoc = require('swagger-jsdoc');
 const specs = swaggerJSdoc(swaggerOptions);
 
 app.use(limiter);
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://embeddable-sandbox.cdn.apollographql.com/'],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://embeddable-sandbox.cdn.apollographql.com/'],
+        imgSrc: ["'self'", 'data:', 'https://embeddable-sandbox.cdn.apollographql.com/'],
+        connectSrc: ["'self'", 'https://%2A.apollographql.com/'],
+        frameSrc: ["'self'", 'https://sandbox.embed.apollographql.com/'],
+      },
+    },
+  }),
+);
 app.use(cors());
 
 const corsOptions: CorsOptions = {
-    origin: ["http://localhost:3000", "https://mon-app.fr"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-}
+  origin: ['http://localhost:3000', 'https://mon-app.fr'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

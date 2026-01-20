@@ -37,22 +37,6 @@ export const getAllProducts = async (queryParams: {limit?: number; page?: number
   return ProductModel.find(filter).skip(skip).limit(limit).sort({_id: 1}).exec();
 }
 
-// export const getAllProducts = async (queryParams?: any) => {
-//   let query = ProductModel.find();
-
-//   if (queryParams?.page && queryParams?.limit) {
-//     const page = Number(queryParams.page);
-//     const limit = Number(queryParams.limit);
-//     const skip = (page - 1) * limit;
-
-//     query = query.skip(skip).limit(limit);
-//   }
-
-//   const data = await query.lean().exec();
-
-//   return data as unknown as Product[];
-// };
-
 export const getProductById = async (id: string) => {
   const product = await ProductModel.findById(id);
   // const product = products.filter((product) => product.id === Number(id))[0];
